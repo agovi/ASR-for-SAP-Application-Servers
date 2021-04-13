@@ -35,7 +35,9 @@ This script assumes that initial provision of ASR setup and now we need to colle
 Fill-out csv file named "asr_input_parameters.csv "
 
 # Input parameter details 
-$SubscriptionName = $param_file.SubscriptionName    # Subscription Name \
+Parameter Name            Description  \
+SubscriptionName          Subscription Name -  \
+$SubscriptionName = $param_file.    # Subscription Name   \
 $region = $param_file.region                        # Primary Region  \
 $drregion = $param_file.drregion                    # DR Region \
 $rv_name = $param_file.rv_name                      # Recovery Vault Name \
