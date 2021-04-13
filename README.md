@@ -35,7 +35,7 @@ https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell
 
 Importing file content : ..\asr_input_parameters.csv
 Source VM Resource Group Name : sapapp2
-Following VM will be considered for ASR : 
+Following VM will be considered for ASR :
 sapapp1
 sapapp2
 Following recovery plan name will be created or used : sapapp2-recovery-plan
