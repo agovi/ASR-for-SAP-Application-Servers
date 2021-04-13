@@ -34,27 +34,27 @@ https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell
 This script assumes that initial provision of ASR setup and now we need to collect ASR provisioned components by going to https://resources.azure.com/
 Fill-out csv file named "asr_input_parameters.csv "
 
-# Input parameter details `
-$SubscriptionName = $param_file.SubscriptionName    # Subscription Name `
-$region = $param_file.region                        # Primary Region  `
-$drregion = $param_file.drregion                    # DR Region `
-$rv_name = $param_file.rv_name                      # Recovery Vault Name `
-$rv_rg = $param_file.rv_rg                          # Resource Group of Recovery Vault `
-$fabric_name = $param_file.fabric_name              # Primary Region Fabric Name `
-$dr_fabric_name = $param_file.dr_fabric_name        # DR Region Fabric Name `
-$prot_name = $param_file.prot_name                  # Primary Region Protection Container Name `
-$dr_prot_name = $param_file.dr_prot_name            # DR Region Protection Container Name `
-$a2a_policy = $param_file.a2a_policy                # A2A Replication Policy Name `
-$a2a_pri_to_dr = $param_file.a2a_pri_to_dr          # A2A Mapping Name `
-$primary_sa_rg = $param_file.primary_sa_rg          # Primary Region Cache storage account resource group name `
-$primary_sa_acc = $param_file.primary_sa_acc        # Primary Region Cache storage account `
-$vnet = $param_file.vnet                            # Primary Region vnet name `
-$vnet_rg = $param_file.vnet_rg                      # Primary Region vnet resource group name `
-$drvnet = $param_file.drvnet                        # DR Region vnet name `
-$drvnet_test = $param_file.drvnet_test              # DR Region test vnet name `
-$drsubnet_test = $param_file.drsubnet_test          # DR Region test subnet name `
-$drsubnet_primary = $param_file.drsubnet_primary    # DR Region subnet name `
-$drvnet_rg = $param_file.drvnet_rg                  # DR vnet resource group name `
+# Input parameter details \
+$SubscriptionName = $param_file.SubscriptionName    # Subscription Name \
+$region = $param_file.region                        # Primary Region  \
+$drregion = $param_file.drregion                    # DR Region \
+$rv_name = $param_file.rv_name                      # Recovery Vault Name \
+$rv_rg = $param_file.rv_rg                          # Resource Group of Recovery Vault \
+$fabric_name = $param_file.fabric_name              # Primary Region Fabric Name \
+$dr_fabric_name = $param_file.dr_fabric_name        # DR Region Fabric Name \
+$prot_name = $param_file.prot_name                  # Primary Region Protection Container Name \
+$dr_prot_name = $param_file.dr_prot_name            # DR Region Protection Container Name \
+$a2a_policy = $param_file.a2a_policy                # A2A Replication Policy Name \
+$a2a_pri_to_dr = $param_file.a2a_pri_to_dr          # A2A Mapping Name \
+$primary_sa_rg = $param_file.primary_sa_rg          # Primary Region Cache storage account resource group name \
+$primary_sa_acc = $param_file.primary_sa_acc        # Primary Region Cache storage account \
+$vnet = $param_file.vnet                            # Primary Region vnet name \
+$vnet_rg = $param_file.vnet_rg                      # Primary Region vnet resource group name \
+$drvnet = $param_file.drvnet                        # DR Region vnet name \
+$drvnet_test = $param_file.drvnet_test              # DR Region test vnet name \
+$drsubnet_test = $param_file.drsubnet_test          # DR Region test subnet name \
+$drsubnet_primary = $param_file.drsubnet_primary    # DR Region subnet name \
+$drvnet_rg = $param_file.drvnet_rg                  # DR vnet resource group name \
 
 
 ### Sample Output 
