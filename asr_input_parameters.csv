@@ -1,0 +1,2 @@
+﻿vmlist,vm_rg_name,SubscriptionName,region,drregion,rv_name,rv_rg,fabric_name,dr_fabric_name,prot_name,dr_prot_name,a2a_policy,a2a_pri_to_dr,primary_sa_rg,primary_sa_acc,vnet,vnet_rg,drvnet,drvnet_test,drsubnet_test,drvnet_rg,drsubnet_primary
+"vm1, vm2",vm_rg_name,SubName,westus2,eastus,vault,vaultrg,fabric-v1 ,drfabric-v1,container-v1,drcontainer-v1,a2apolicy-v1,a2amapping-v1,sa_rg,sa_acc,pri_vnet,rg_vnet,dr_vnet,dr_test_vnet,dr_test_subnet,dr_vnet_rg,dr_subnet
