@@ -23,9 +23,11 @@ Re-Running of the script typically skips already protected VMs
 ### Reference documentation 
 
 Powershell module for Azure Recovery Services
+
 https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrrecoveryplan?view=azps-5.6.0
 
 ASR Powershell automation 
+
 https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell
 
 
