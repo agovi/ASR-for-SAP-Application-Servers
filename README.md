@@ -62,7 +62,7 @@ vmlist                      List of SAP PAS, AAS, ASCS VMs
 vm_rg_name                  Resource Group name for the VMs 
 
 ```
-### Sample Output - ASR Enable 
+### Sample Output for "enable" : 
 
 ```
 ASR-MultiVM-SAP.ps1 .\asr_input_parameters.csv
@@ -119,6 +119,82 @@ Manually verify Compute and Network Settings in Azure Portal if Configured with 
 Login to Azure portal and verify recovery plan and VM network settings are created as expected
 
 ```
+
+### Sample Output for ASR One-time "setup" : 
+
+```
+.\ASR-Infra-Setup-v1.ps1 .\asr_input_parameters-v2.csv
+
+Importing file content : .\asr_input_parameters-v2.csv
+Selecting Subscription : XXX
+
+Name                                     Account                 SubscriptionName        Environment             TenantId
+----                                     -------                 ----------------        -----------             --------
+XXX (XXX) 				XXX@XXX.com  			XXX 		   AzureCloud              XXX 
+Checking if DR Resource Group : rv-rg-v2 exists or create
+Resource group rv-rg-v2 already exist
+Create Recovery Vault - rvname-v2
+
+ResourceName      : rvname-v2
+ResourceGroupName : rv-rg-v2
+ResourceNamespace : Microsoft.RecoveryServices
+ResouceType       : vaults
+
+Create ASR fabric in Primary Region - ASR Job status : Succeeded
+Create ASR fabric in DR Region - ASR Job status : Succeeded
+Create Protection Container in the Primary Region - ASR Job status: Succeeded
+Create Protection Container in the DR Region - ASR Job status: Succeeded
+Create Replication Policy - ASR Job status : Succeeded
+Create Protection container mapping between the Primary and Recovery with Replication policy - ASR Job status : Succeeded
+Recovery vnet /subscriptions/XXX/resourceGroups/infra-eastus-rg/providers/Microsoft.Network/virtualNetworks/sapvnet-wus2
+Primary vnet /subscriptions/XXX/resourceGroups/infra-eastus-rg/providers/Microsoft.Network/virtualNetworks/sapvnet-wus2
+ASR network mapping between the primary Azure virtual network and the recovery Azure virtual network - ASR Job status : Succeeded
+
+```
+### Sample Output for ASR "test" : 
+```
+.\ASR-MultiVM-SAP.ps1 .\asr_input_parameters-v2.csv
+Importing file content : ..\asr_input_parameters-v2.csv
+Source VM Resource Group Name : sapapp3
+Following VM will be considered for ASR :
+sapapp6
+...
+Enter one of the options:  enable, test, cleanup, exit to continue: test
+Following VM, vnet and subnet will be used for DR Test that are part of Recovery Plan : sapapp3-recovery-plan
+Test VM Name : sapapp6-test
+vnet : sapvnet-wus2
+subnet : isolated
+
+Manually verify Compute and Network Settings in Azure Portal if it points to Isolated subnet for Failover Network, before entering continue or exit: continue
+DR test is in progress
+Login to azure portal and check if VMs are being deployed inside Isolated Subnet
+ ASR test jobs status : InProgress - 04/13/2021 22:30:27
+ ASR test jobs status : InProgress - 04/13/2021 22:30:49
+ ...
+ ASR test jobs status : InProgress - 04/13/2021 22:32:37
+ ASR test jobs status : Succeeded - 04/13/2021 22:32:58
+Verify one more time if VMs are deployed inside Isolated Subnet before continue with DR test activities
+```
+
+### Sample Output for ASR "cleanup" : 
+
+```
+PS C:\MSFT\Automation\asr4sap> .\ASR-MultiVM-SAP.ps1 ..\asr_input_parameters-v2.csv
+Importing file content : ..\asr_input_parameters-v2.csv
+Source VM Resource Group Name : sapapp3
+Following VM will be considered for ASR :
+sapapp6
+...
+Enter one of the options:  enable, test, cleanup, exit to continue: cleanup
+DR test resources cleanup in progress for Recovery Plan : sapapp3-recovery-plan
+ ASR cleanup job state and description : InProgress ; InProgress - 04/13/2021 22:35:24
+Check ASR job section for job status and VM deletion progress
+...
+ ASR cleanup job state and description : Succeeded ; Completed - 04/13/2021 22:37:31
+Check ASR job section for job status and VM deletion progress
+```
+
+
 ### Reference documentation:
 [Powershell module for Azure Recovery Services](https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrrecoveryplan?view=azps-5.6.0)
 [ASR Powershell automation](https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell)
