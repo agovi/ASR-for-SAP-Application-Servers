@@ -9,6 +9,7 @@
 
 ### More about this script
 * Leverage ASR-Infra-Setup.ps1 to setup Recovery Vault Infrastructure - One time activity
+  * Go to Recovery Vault -> Site Recovery infrastructure -> Extension update settings and manually enable "Allow Site Recovery to manage". This setting is highly recommended. 
 * This script "ASR-MultiVM-SAP.ps1" has got three functions such as
   * enable
   * test
@@ -70,48 +71,52 @@ vm_rg_name                  Resource Group name for the VMs
 ASR-MultiVM-SAP.ps1 .\asr_input_parameters.csv
 
 Importing file content : ..\asr_input_parameters.csv
-Source VM Resource Group Name : sapapp2
+Source VM Resource Group Name : sapapp3
 Following VM will be considered for ASR :
-sapapp1
-sapapp2
-Following recovery plan name will be created or used : sapapp2-recovery-plan
-Selecting Subscription : XXX
+sapapp6
+Following recovery plan name will be created or used : sapapp3-recovery-plan
+Selecting Subscription : xx
 
-Name                                     Account                SubscriptionName      Environment           TenantId
-----                                     -------                ----------------      -----------           --------
-XXX                                       XXX                          XXX              AzureCloud            XXX 
-Checking if DR Resource Group : sapapp2-asr exists or create
-Resource group sapapp2-asr already exist
-Recovery VM Resource Group Name : sapapp2-asr
-Recovery Vault Name : rvname-v1
-Primary Fabric Name : fabric-v1
-Recovery Fabric Name : drfabric-v1
-Primary Protection Container Name : container-v1
-Recovery Protection Container Name : drcontainer-v1
-Mapping between the Primary and Recovery Protection Containers : a2apolicy-v1
+Name                                     Account                 SubscriptionName        Environment             TenantId
+----                                     -------                 ----------------        -----------             --------
+xxx (xxx)                                xxx@xxx.com                xxx                    AzureCloud              xxx 
+Checking if DR Resource Group : sapapp3-asr exists or create
+Creating resource group sapapp3-asr
+Recovery VM Resource Group Name : sapapp3-asr
+Recovery Vault Name : rvname-v2
+Primary Fabric Name : fabric-v2
+Recovery Fabric Name : drfabric-v2
+Primary Protection Container Name : container-v2
+Recovery Protection Container Name : drcontainer-v2
+Mapping between the Primary and Recovery Protection Containers : a2apolicy-v2
 Recovery vnet name  : /subscriptions/xxx/resourceGroups/infra-eastus-rg/providers/Microsoft.Network/virtualNetworks/sapvnet-wus2
 Primary vnet name  : /subscriptions/xxx/resourceGroups/azsap/providers/Microsoft.Network/virtualNetworks/azsapspoke
 Enter one of the options:  enable, test, cleanup, exit to continue: enable
 Enabling VM replication, creating or updating Recovery Plan and updating individual VM NIC configuration
-Enabling Replication for VM sapapp1
+Enabling Replication for VM sapapp6
 Checking and Creating AvSet based on source VM configuration
-Check Recovery Vault -> Site Recovery jobs section for VM sapapp1
-ASR Job Status : InProgress
-Enabling Replication for VM sapapp2
-Checking and Creating AvSet based on source VM 
+Check Recovery Vault -> Site Recovery jobs section for VM sapapp6
 ASR Job Status : InProgress
 Checking for VM Protection progress and takes 15-20 minutes to see % completion progress
 Enabling Protection could take minutes to few hours and depends on data volume
 Date                ; VM Name        ;  Protection Current State  ;   % Completion
-ASR Protected VM:  sapapp1
-ASR Protected VM:  sapapp2
+04/13/2021 20:47:04 ; sapapp6 ;  Enabling protection ;
+...
+04/13/2021 21:15:33 ; sapapp6 ;  Enabling protection ; 0
+04/13/2021 21:16:06 ; sapapp6 ;  Enabling protection ; 0
+...
+04/13/2021 21:22:07 ; sapapp6 ;  Enabling protection ; 56
+04/13/2021 21:22:39 ; sapapp6 ;  Enabling protection ; 56
+04/13/2021 21:27:00 ; sapapp6 ;  Enabling protection ; 69
+04/13/2021 21:36:51 ; sapapp6 ;  Enabling protection ; 80
+04/13/2021 21:37:24 ; sapapp6 ;  Enabling protection ; 93
+04/13/2021 21:44:31 ; sapapp6 ;  Enabling protection ; 93
+ASR Protected VM:  sapapp6
 Checking if Recovery Plan exists
-Deleting existing recovery plan Group and creating the Group again with updated Protected Items
-Recovery Plan update job status : Succeeded
-Updating NIC for sapapp1
-NIC setting update job status : Succeeded for sapapp1
-Updating NIC for sapapp2
-NIC setting update job status : Succeeded for sapapp2
+Creating Recovery Plan sapapp3-recovery-plan
+Recovery Plan create job status : Succeeded
+Updating NIC for sapapp6
+NIC setting update job status : Succeeded for sapapp6
 Check Site Recovery jobs section if all jobs successfully completed
 Manually verify Compute and Network Settings in Azure Portal if Configured with Isolated subnet for Test Failover section , before doing DR Test
 Login to Azure portal and verify recovery plan and VM network settings are created as expected
