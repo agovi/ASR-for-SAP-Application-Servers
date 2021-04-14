@@ -20,7 +20,7 @@
 * Script capture source VM OS/Data Disks, NIC accelerated settings, AvSet and sets up both test and recovery settings accordingly.
 * Script also creates a Recovery Plan.
 * Re-Running of the script typically skips already protected VMs but you can include new set of VMs that can be protected. Each rerun will update NIC & Recovery plan. 
-* VM SKU, OS, Data Disks and AvSet settings are created part of initial run for each VM and rerun does not update these values after initial run.
+* VM Size, OS, Data Disks and AvSet settings are created part of initial run for each VM and rerun does not update these values after initial run.
 * This script can be updated to include PPG, AvZones & other ASR features.
 
 ### SAP on Azure - HA/DR High Level Architecture
