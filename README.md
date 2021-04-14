@@ -1,4 +1,4 @@
-## ASR initial setup for SAP Application Servers, ASCS, SAPRouters, etc
+## ASR Powershell Automation for SAP Application Servers, ASCS, SAPRouters, etc
 
 ### Requirements:
 
@@ -120,7 +120,6 @@ Login to Azure portal and verify recovery plan and VM network settings are creat
 ```
 
 ### Sample Output for ASR One-time "setup" : 
-
 ```
 .\ASR-Infra-Setup-v1.ps1 .\asr_input_parameters-v2.csv
 
@@ -176,7 +175,6 @@ Verify one more time if VMs are deployed inside Isolated Subnet before continue 
 ```
 
 ### Sample Output for ASR "cleanup" : 
-
 ```
 .\ASR-MultiVM-SAP.ps1 .\asr_input_parameters-v2.csv
 Importing file content : ..\asr_input_parameters-v2.csv
@@ -192,7 +190,6 @@ Check ASR job section for job status and VM deletion progress
  ASR cleanup job state and description : Succeeded ; Completed - 04/13/2021 22:37:31
 Check ASR job section for job status and VM deletion progress
 ```
-
 
 ### Reference documentation:
 [Powershell module for Azure Recovery Services](https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrrecoveryplan?view=azps-5.6.0)
