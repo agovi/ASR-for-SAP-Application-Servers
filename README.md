@@ -7,7 +7,7 @@
 * PowerShell 7.1 or newer - if you are running it from Visual Code
 * PowerShell modules Az - if you are running it from Visual Code
 
-### More about this script
+### More about these scripts:
 * Leverage ASR-Infra-Setup.ps1 to setup Recovery Vault Infrastructure - One time activity
   * Go to Recovery Vault -> Site Recovery infrastructure -> Extension update settings and manually enable "Allow Site Recovery to manage". This setting is highly recommended. 
 * This script "ASR-MultiVM-SAP.ps1" has got three functions such as
@@ -24,20 +24,17 @@
 * This script can be leveraged to enable ASR on individual SAP system application servers
 * This script can be modified to include PPG, AvZones & other features.
 
+### SAP on Azure - HA/DR High Level Architecture
 
-### Reference documentation 
+![HADR](images/SAP_HADR_Architecture.JPG)
 
-[Powershell module for Azure Recovery Services](https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrrecoveryplan?view=azps-5.6.0)
-
-[ASR Powershell automation](https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell)
-
-### Preparing Input file
+### Preparing Input file:
 
 If Recovery Vault Infrastructure is already created then you can leverage [Azure Resource Explorer](https://resources.azure.com/) to locate all required parameters by drill-down to Recovery Services section. 
 
 Fill-out csv file named "asr_input_parameters.csv 
 
-### Input parameter details 
+### Input parameter details: 
 ```
 Parameter Name              Description 
 
@@ -65,7 +62,7 @@ vmlist                      List of SAP PAS, AAS, ASCS VMs
 vm_rg_name                  Resource Group name for the VMs 
 
 ```
-### Sample Output 
+### Sample Output - ASR Enable 
 
 ```
 ASR-MultiVM-SAP.ps1 .\asr_input_parameters.csv
@@ -122,7 +119,6 @@ Manually verify Compute and Network Settings in Azure Portal if Configured with 
 Login to Azure portal and verify recovery plan and VM network settings are created as expected
 
 ```
-
-### SAP on Azure - HA/DR High Level Architecture
-
-![HADR](images/SAP_HADR_Architecture.JPG)
+### Reference documentation:
+[Powershell module for Azure Recovery Services](https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrrecoveryplan?view=azps-5.6.0)
+[ASR Powershell automation](https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell)
