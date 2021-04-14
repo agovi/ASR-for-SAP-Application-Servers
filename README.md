@@ -192,5 +192,5 @@ Check ASR job section for job status and VM deletion progress
 ```
 
 ### Reference documentation:
-[Powershell module for Azure Recovery Services](https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrrecoveryplan?view=azps-5.6.0) \
+[Powershell module for Azure Recovery Services](https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/?view=azps-5.8.0#recovery-services) \
 [ASR Powershell automation](https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell)
