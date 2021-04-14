@@ -1,4 +1,4 @@
-## ASR Powershell Automation for SAP Application Servers, ASCS, SAPRouters, etc
+## ASR Powershell Automation for SAP PAS, AAS, ASCS, SAPRouters, etc
 
 ### Requirements:
 
@@ -9,19 +9,19 @@
 
 ### More about these scripts:
 * Leverage ASR-Infra-Setup.ps1 to setup Recovery Vault Infrastructure - One time activity
-  * Go to Recovery Vault -> Site Recovery infrastructure -> Extension update settings and manually enable "Allow Site Recovery to manage". This setting is highly recommended. 
+  * Go to Recovery Vault -> Site Recovery infrastructure -> Extension update settings and manually enable "Allow Site Recovery to manage" and this setting is highly recommended. 
 * This script "ASR-MultiVM-SAP.ps1" has got three functions such as
   * enable
   * test
   * cleanup
-* You can run "ASR-MultiVM-SAP.ps1" in one of the three modes, start with enable and proceed with test and finally cleanup. 
+* You can run "ASR-MultiVM-SAP.ps1" in one of the three modes such as enable, test and finally cleanup. 
 * These two PS scripts require number of parameters, part of input file. See Input Parameter section for more details.
 * All VMs must reside within same RG.
-* Script capture source VM OS/Data Disks, NIC accelerated settings, AvSet and sets up both test and recovery settings accordingly.
+* Script capture source VM OS, Data Disks, NIC accelerated settings, AvSet and sets up both test and recovery settings accordingly.
 * Script also creates a Recovery Plan.
 * Re-Running of the script typically skips already protected VMs but you can include new set of VMs that can be protected. Each rerun will update NIC & Recovery plan. 
 * VM Size, OS, Data Disks and AvSet settings are created part of initial run for each VM and rerun does not update these values after initial run.
-* This script can be updated to include PPG, AvZones & other ASR features.
+* Script can be expanded to include PPG, AvZones & other ASR features.
 
 ### SAP on Azure - HA/DR High Level Architecture
 
@@ -29,7 +29,7 @@
 
 ### Preparing Input file:
 
-If Recovery Vault Infrastructure is already created then you can leverage [Azure Resource Explorer](https://resources.azure.com/) to locate all required parameters by drill-down to Recovery Services section. 
+If Recovery Vault Infrastructure is already created then you can leverage [Azure Resource Explorer](https://resources.azure.com/) to locate all required input value for each parameters by drill-down to Recovery Services section. 
 
 Fill-out csv file named "asr_input_parameters.csv 
 
@@ -61,6 +61,38 @@ vmlist                      List of SAP PAS, AAS, ASCS VMs
 vm_rg_name                  Resource Group name for the VMs 
 
 ```
+
+### Sample Output for ASR One-time "setup" : 
+```
+.\ASR-Infra-Setup-v1.ps1 .\asr_input_parameters-v2.csv
+
+Importing file content : .\asr_input_parameters-v2.csv
+Selecting Subscription : XXX
+
+Name                                     Account                 SubscriptionName        Environment             TenantId
+----                                     -------                 ----------------        -----------             --------
+XXX (XXX) 				XXX@XXX.com  			XXX 		   AzureCloud              XXX 
+Checking if DR Resource Group : rv-rg-v2 exists or create
+Resource group rv-rg-v2 already exist
+Create Recovery Vault - rvname-v2
+
+ResourceName      : rvname-v2
+ResourceGroupName : rv-rg-v2
+ResourceNamespace : Microsoft.RecoveryServices
+ResouceType       : vaults
+
+Create ASR fabric in Primary Region - ASR Job status : Succeeded
+Create ASR fabric in DR Region - ASR Job status : Succeeded
+Create Protection Container in the Primary Region - ASR Job status: Succeeded
+Create Protection Container in the DR Region - ASR Job status: Succeeded
+Create Replication Policy - ASR Job status : Succeeded
+Create Protection container mapping between the Primary and Recovery with Replication policy - ASR Job status : Succeeded
+Recovery vnet /subscriptions/XXX/resourceGroups/infra-eastus-rg/providers/Microsoft.Network/virtualNetworks/sapvnet-wus2
+Primary vnet /subscriptions/XXX/resourceGroups/infra-eastus-rg/providers/Microsoft.Network/virtualNetworks/sapvnet-wus2
+ASR network mapping between the primary Azure virtual network and the recovery Azure virtual network - ASR Job status : Succeeded
+
+```
+
 ### Sample Output for "enable" : 
 
 ```
@@ -119,36 +151,6 @@ Login to Azure portal and verify recovery plan and VM network settings are creat
 
 ```
 
-### Sample Output for ASR One-time "setup" : 
-```
-.\ASR-Infra-Setup-v1.ps1 .\asr_input_parameters-v2.csv
-
-Importing file content : .\asr_input_parameters-v2.csv
-Selecting Subscription : XXX
-
-Name                                     Account                 SubscriptionName        Environment             TenantId
-----                                     -------                 ----------------        -----------             --------
-XXX (XXX) 				XXX@XXX.com  			XXX 		   AzureCloud              XXX 
-Checking if DR Resource Group : rv-rg-v2 exists or create
-Resource group rv-rg-v2 already exist
-Create Recovery Vault - rvname-v2
-
-ResourceName      : rvname-v2
-ResourceGroupName : rv-rg-v2
-ResourceNamespace : Microsoft.RecoveryServices
-ResouceType       : vaults
-
-Create ASR fabric in Primary Region - ASR Job status : Succeeded
-Create ASR fabric in DR Region - ASR Job status : Succeeded
-Create Protection Container in the Primary Region - ASR Job status: Succeeded
-Create Protection Container in the DR Region - ASR Job status: Succeeded
-Create Replication Policy - ASR Job status : Succeeded
-Create Protection container mapping between the Primary and Recovery with Replication policy - ASR Job status : Succeeded
-Recovery vnet /subscriptions/XXX/resourceGroups/infra-eastus-rg/providers/Microsoft.Network/virtualNetworks/sapvnet-wus2
-Primary vnet /subscriptions/XXX/resourceGroups/infra-eastus-rg/providers/Microsoft.Network/virtualNetworks/sapvnet-wus2
-ASR network mapping between the primary Azure virtual network and the recovery Azure virtual network - ASR Job status : Succeeded
-
-```
 ### Sample Output for ASR "test" : 
 ```
 .\ASR-MultiVM-SAP.ps1 .\asr_input_parameters-v2.csv
