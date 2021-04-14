@@ -8,15 +8,16 @@
 * PowerShell modules Az - if you are running it from Visual Code
 
 ### More about this script
-* This script has got three functions such as 
+* Leverage ASR-Infra-Setup.ps1 to setup Recovery Vault Infrastructure - One time activity
+* This script "ASR-MultiVM-SAP.ps1" has got three functions such as
   * enable
   * test
   * cleanup
-* You can run the script in one of the three modes, start with enable, test and cleanup. 
-* This PS script require number of parameters, part of input file. See Input Parameter section for more details.
+* You can run "ASR-MultiVM-SAP.ps1" in one of the three modes, start with enable, test and cleanup. 
+* These two PS scripts require number of parameters, part of input file. See Input Parameter section for more details.
 * All VMs must reside within same RG.
 * Script capture source VM OS/Data Disks, NIC accelerated settings, AvSet and sets up both test and recovery settings accordingly.
-* Script also creates Recovery Plan.
+* Script also creates a Recovery Plan.
 * Re-Running of the script typically skips already protected VMs but you can include new set of VMs that can be protected. Each rerun will update NIC & Recovery plan. 
 * VM SKU, OS, Data Disks and AvSet settings are created part of initial run for each VM and rerun does not update after initial run.
 * This script can be leveraged to enable ASR on individual SAP system application servers
@@ -30,8 +31,10 @@
 [ASR Powershell automation](https://docs.microsoft.com/en-us/azure/site-recovery/azure-to-azure-powershell)
 
 ### Preparing Input file
-This script assumes that initial provision of ASR setup and now we need to collect ASR provisioned components by going to https://resources.azure.com/
-Fill-out csv file named "asr_input_parameters.csv "
+
+If Recovery Vault Infrastructure is already created then you can leverage [Azure Resource Explorer](https://resources.azure.com/) to locate all required parameters by drill-down to Recovery Services section. 
+
+Fill-out csv file named "asr_input_parameters.csv 
 
 ### Input parameter details 
 ```
@@ -56,13 +59,15 @@ drvnet                      DR Region vnet name
 drvnet_test                 DR Region test vnet name 
 drsubnet_test               DR Region test subnet name 
 drsubnet_primary            DR Region subnet name 
-drvnet_rg                   DR vnet resource group name 
+drvnet_rg                   DR vnet resource group name
+vmlist                      List of SAP PAS, AAS, ASCS VMs
+vm_rg_name                  Resource Group name for the VMs 
 
 ```
 ### Sample Output 
 
 ```
-ASR-MultiVM-v6.ps1 .\asr_input_parameters.csv
+ASR-MultiVM-SAP.ps1 .\asr_input_parameters.csv
 
 Importing file content : ..\asr_input_parameters.csv
 Source VM Resource Group Name : sapapp2
@@ -112,3 +117,7 @@ Manually verify Compute and Network Settings in Azure Portal if Configured with 
 Login to Azure portal and verify recovery plan and VM network settings are created as expected
 
 ```
+
+### SAP on Azure - HA/DR High Level Architecture
+
+![HADR](images/SAP_HADR_Architecture.jpg)
