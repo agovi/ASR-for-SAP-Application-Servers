@@ -120,4 +120,4 @@ Login to Azure portal and verify recovery plan and VM network settings are creat
 
 ### SAP on Azure - HA/DR High Level Architecture
 
-![HADR](images/SAP_HADR_Architecture.jpg)
+![HADR](images/SAP_HADR_Architecture.JPG)
