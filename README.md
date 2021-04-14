@@ -14,15 +14,14 @@
   * enable
   * test
   * cleanup
-* You can run "ASR-MultiVM-SAP.ps1" in one of the three modes, start with enable, test and cleanup. 
+* You can run "ASR-MultiVM-SAP.ps1" in one of the three modes, start with enable and proceed with test and finally cleanup. 
 * These two PS scripts require number of parameters, part of input file. See Input Parameter section for more details.
 * All VMs must reside within same RG.
 * Script capture source VM OS/Data Disks, NIC accelerated settings, AvSet and sets up both test and recovery settings accordingly.
 * Script also creates a Recovery Plan.
 * Re-Running of the script typically skips already protected VMs but you can include new set of VMs that can be protected. Each rerun will update NIC & Recovery plan. 
-* VM SKU, OS, Data Disks and AvSet settings are created part of initial run for each VM and rerun does not update after initial run.
-* This script can be leveraged to enable ASR on individual SAP system application servers
-* This script can be modified to include PPG, AvZones & other features.
+* VM SKU, OS, Data Disks and AvSet settings are created part of initial run for each VM and rerun does not update these values after initial run.
+* This script can be updated to include PPG, AvZones & other ASR features.
 
 ### SAP on Azure - HA/DR High Level Architecture
 
@@ -179,7 +178,7 @@ Verify one more time if VMs are deployed inside Isolated Subnet before continue 
 ### Sample Output for ASR "cleanup" : 
 
 ```
-PS C:\MSFT\Automation\asr4sap> .\ASR-MultiVM-SAP.ps1 ..\asr_input_parameters-v2.csv
+.\ASR-MultiVM-SAP.ps1 .\asr_input_parameters-v2.csv
 Importing file content : ..\asr_input_parameters-v2.csv
 Source VM Resource Group Name : sapapp3
 Following VM will be considered for ASR :
