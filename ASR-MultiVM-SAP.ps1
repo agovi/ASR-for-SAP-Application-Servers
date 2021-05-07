@@ -324,10 +324,18 @@ function enable-replication {
         $accsetting = $getnic.EnableAcceleratedNetworking
         Write-Host -ForegroundColor Yellow -BackgroundColor black ("Updating NIC for " + $i.FriendlyName )
         if ( $accsetting -eq "True") {
-            $nicconfig = New-AzRecoveryServicesAsrVMNicConfig -NicId $AsrNicGuid -ReplicationProtectedItem $i -RecoveryVMNetworkId $RecoveryNetwork `
-                -RecoveryVMSubnetName $drsubnet_primary -RecoveryNicStaticIPAddress "" -TfoVMNetworkId $RecoveryNetwork `
-                -TfoVMSubnetName $drsubnet_test -TfoNicStaticIPAddress "" `
-                -EnableAcceleratedNetworkingOnRecovery -EnableAcceleratedNetworkingOnTfo 
+            # $nicconfig = New-AzRecoveryServicesAsrVMNicConfig -NicId $AsrNicGuid -ReplicationProtectedItem $i -RecoveryVMNetworkId $RecoveryNetwork `
+            #     -RecoveryVMSubnetName $drsubnet_primary -RecoveryNicStaticIPAddress "" -TfoVMNetworkId $RecoveryNetwork `
+            #     -TfoVMSubnetName $drsubnet_test -TfoNicStaticIPAddress "" `
+            #     -EnableAcceleratedNetworkingOnRecovery -EnableAcceleratedNetworkingOnTfo 
+            $ipConfigs = New-AzRecoveryServicesAsrVMNicIPConfig  -IpConfigName $getnic.IpConfigurations.Name `
+                -RecoverySubnetName $drsubnet_primary -TfoSubnetName $drsubnet_test `
+                -RecoveryStaticIPAddress "” -TfoStaticIPAddress ""
+            $nicconfig = New-AzRecoveryServicesAsrVMNicConfig -NicId $AsrNicGuid `
+                -ReplicationProtectedItem $i -RecoveryVMNetworkId $RecoveryNetwork `
+                -TfoVMNetworkId $RecoveryNetwork -IPConfig $ipConfigs `
+                -EnableAcceleratedNetworkingOnRecovery -EnableAcceleratedNetworkingOnTfo
+
             $TempASRJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -ReplicationProtectedItem $i -ASRVMNicConfiguration $nicconfig 
 
             #Track Job status to check for completion
@@ -340,9 +348,16 @@ function enable-replication {
             Write-Output ("NIC setting update job status : " + $TempASRJob.State + " for " + $i.FriendlyName)
         }
         else {
-            $nicconfig = New-AzRecoveryServicesAsrVMNicConfig -NicId $AsrNicGuid -ReplicationProtectedItem $i -RecoveryVMNetworkId $RecoveryNetwork `
-                -RecoveryVMSubnetName $drsubnet_primary -RecoveryNicStaticIPAddress "" -TfoVMNetworkId $RecoveryNetwork `
-                -TfoVMSubnetName $drsubnet_test -TfoNicStaticIPAddress "" 
+            # $nicconfig = New-AzRecoveryServicesAsrVMNicConfig -NicId $AsrNicGuid -ReplicationProtectedItem $i -RecoveryVMNetworkId $RecoveryNetwork `
+            #     -RecoveryVMSubnetName $drsubnet_primary -RecoveryNicStaticIPAddress "" -TfoVMNetworkId $RecoveryNetwork `
+            #     -TfoVMSubnetName $drsubnet_test -TfoNicStaticIPAddress "" 
+            $ipConfigs = New-AzRecoveryServicesAsrVMNicIPConfig  -IpConfigName $getnic.IpConfigurations.Name `
+                -RecoverySubnetName $drsubnet_primary -TfoSubnetName $drsubnet_test `
+                -RecoveryStaticIPAddress "” -TfoStaticIPAddress ""
+            $nicconfig = New-AzRecoveryServicesAsrVMNicConfig -NicId $AsrNicGuid `
+                -ReplicationProtectedItem $i -RecoveryVMNetworkId $RecoveryNetwork `
+                -TfoVMNetworkId $RecoveryNetwork -IPConfig $ipConfigs 
+
             $TempASRJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -ReplicationProtectedItem $i -ASRVMNicConfiguration $nicconfig 
             #Track Job status to check for completion
             while (($TempASRJob.State -eq "InProgress") -or ($TempASRJob.State -eq "NotStarted")) {
@@ -359,10 +374,14 @@ function enable-replication {
 function dr-test { 
    
     # Create the array of Protected Item
+    $rp_vm = Get-AzRecoveryServicesAsrRecoveryPlan -Name $recovery_plan
     $ReplicationProtectedItem = @()
-    foreach ($vmtmp in $vmlist) {
-        $ReplicationProtectedItem += Get-AzRecoveryServicesAsrReplicationProtectedItem -FriendlyName $vmtmp -ProtectionContainer $PrimaryProtContainer
-    }
+    $ReplicationProtectedItem = $rp_vm.Groups[2].ReplicationProtectedItems
+
+    # $ReplicationProtectedItem = @()
+    # foreach ($vmtmp in $vmlist) {
+    #     $ReplicationProtectedItem += Get-AzRecoveryServicesAsrReplicationProtectedItem -FriendlyName $vmtmp -ProtectionContainer $PrimaryProtContainer
+    # }
 
     # Display Recovery Plan, VM & NIC settings that will be deployed part of DR test
     Write-Host -ForegroundColor White -BackgroundColor black ("Following VM, vnet and subnet will be used for DR Test that are part of Recovery Plan : ") -NoNewline; Write-Host -ForegroundColor Yellow ($recovery_plan)
